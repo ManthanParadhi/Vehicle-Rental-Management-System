@@ -1,4 +1,4 @@
-package utilities;
+package com.shashank.vrms.utilities;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -13,7 +13,6 @@ public class HikariCPDataSource {
 	    private static HikariDataSource ds;
 
 	    static {
-	        System.out.println("here");
 	        ds = new HikariDataSource(config);
 	    }
 
