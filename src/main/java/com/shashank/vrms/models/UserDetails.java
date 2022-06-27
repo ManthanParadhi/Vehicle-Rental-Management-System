@@ -13,6 +13,8 @@ public class UserDetails {
 	private String idProofNumber;
 	private Timestamp createdOn;
 	private Timestamp updatedOn;
+	
+	
 	public int getId() {
 		return id;
 	}
@@ -84,20 +86,7 @@ public class UserDetails {
 	
 	
 	
-	public UserDetails(int id, String contactNumber, String addressLine, String city, String state, int pincode,
-			String idProofType, String idProofNumber, Timestamp createdOn, Timestamp updatedOn) {
-		super();
-		this.id = id;
-		this.contactNumber = contactNumber;
-		this.addressLine = addressLine;
-		this.city = city;
-		this.state = state;
-		this.pincode = pincode;
-		this.idProofType = idProofType;
-		this.idProofNumber = idProofNumber;
-		this.createdOn = createdOn;
-		this.updatedOn = updatedOn;
-	}
+
 	
 	
 	
