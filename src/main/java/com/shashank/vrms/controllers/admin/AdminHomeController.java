@@ -1,4 +1,4 @@
-package com.shashank.vrms.controllers;
+package com.shashank.vrms.controllers.admin;
 
 import java.io.IOException;
 

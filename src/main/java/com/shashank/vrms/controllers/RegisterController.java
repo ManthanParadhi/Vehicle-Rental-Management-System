@@ -36,7 +36,7 @@ public class RegisterController extends HttpServlet {
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 		
-		if(fname==null || lname==null || email==null || password==null) {
+		if(!Helper.areFieldsValid(fname,lname,email,password)) {
 			RequestDispatcher rd = getServletContext().getRequestDispatcher("/WEB-INF/register.jsp");
 			request.setAttribute("msg", "please try again");
 			rd.forward(request, response);

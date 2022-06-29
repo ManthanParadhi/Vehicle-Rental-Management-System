@@ -11,15 +11,15 @@
 </head>
 <body>
 
-	<h2>Admin Dashboard!</h2>
-	<ul>
-  <li><a href="vehicle/add">Add vehicle</a></li>
-  <li><a href="brand/add">Add brand</a></li>
-  <li><a href="#contact">Contact</a></li>
-  <li><a href="#about">About</a></li>
-</ul>
-	
-		${email}
+	<c:if test="${not empty msg}">
+		${msg}
+		<c:remove var="msg" scope="session" />
+	</c:if>
+	<form action="" method="post">
+		Enter Brand Name : <input type="text" name="brandName" required>
+		<input type="submit">
+	</form>
+
 	
 </body>
 </html>

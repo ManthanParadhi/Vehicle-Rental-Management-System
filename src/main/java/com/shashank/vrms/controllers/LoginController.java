@@ -32,7 +32,7 @@ public class LoginController extends HttpServlet {
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 
-		if (email == null || password == null) {
+		if (!Helper.areFieldsValid(email,password)) {
 			RequestDispatcher rd = getServletContext().getRequestDispatcher("/login.jsp");
 			request.setAttribute("msg", "Please fill required fields...");
 			rd.forward(request, response);
