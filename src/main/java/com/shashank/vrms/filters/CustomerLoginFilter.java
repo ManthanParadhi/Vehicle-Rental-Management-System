@@ -24,7 +24,7 @@ public class CustomerLoginFilter extends HttpFilter implements Filter {
 		HttpServletResponse response = (HttpServletResponse) res;
 		
 		HttpSession session = request.getSession(false);
-		Role role = Role.valueOf((String)session.getAttribute("role"));
+		Role role = session==null?null:(Role)session.getAttribute("role");
 		
 		if(role==Role.CUSTOMER)
 			chain.doFilter(request, response);

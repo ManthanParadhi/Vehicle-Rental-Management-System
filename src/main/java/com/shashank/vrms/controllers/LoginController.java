@@ -65,9 +65,7 @@ public class LoginController extends HttpServlet {
 				session.setAttribute("role", user.getRole());
 
 				if (user.getRole() == Role.CUSTOMER) {
-					RequestDispatcher rd = getServletContext().getRequestDispatcher("/WEB-INF/home.jsp");
-					request.setAttribute("msg", "Logged in successfully...");
-					rd.forward(request, response);
+					response.sendRedirect(request.getContextPath()+"/");
 				} else if (user.getRole() == Role.ADMIN) {
 					response.sendRedirect(request.getContextPath()+"/admin/");
 				}

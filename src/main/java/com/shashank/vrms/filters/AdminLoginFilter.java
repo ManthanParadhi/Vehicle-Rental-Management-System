@@ -24,7 +24,8 @@ public class AdminLoginFilter extends HttpFilter implements Filter {
 		HttpServletResponse response = (HttpServletResponse) res;
 		
 		HttpSession session = request.getSession(false);
-		Role role = Role.valueOf((String)session.getAttribute("role"));
+		
+        Role role = session==null?null:(Role)session.getAttribute("role");
 		
 		if(role==Role.ADMIN)
 			chain.doFilter(request, response);

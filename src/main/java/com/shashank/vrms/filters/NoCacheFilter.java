@@ -31,8 +31,11 @@ public class NoCacheFilter implements Filter {
 	        
 	        String path = request.getRequestURI().substring(request.getContextPath().length());
 	        HttpSession session = request.getSession(false);
-	        Role role = Role.valueOf((String)session.getAttribute("role"));
+	        
+	        Role role = session==null?null:(Role)session.getAttribute("role");
+	        
 	        System.out.println(path);
+	        System.out.println(role);
 	        
 	        if(session==null || session.getAttribute("email")==null){
 	        	System.out.println("1st if");
