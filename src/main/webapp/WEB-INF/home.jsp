@@ -3,8 +3,17 @@
 <%@ page isELIgnored="false"%>
 <html>
 <body>
-<h2>Hello World!</h2>
+	<h2>Home page!</h2>
 
-<a href="register">Register here</a>
+
+	<c:if test="${empty email}">
+		<a href="register">Register here</a>
+		<br>
+		<a href="login">Login here</a>
+		<br>
+	</c:if>
+	<br>
+	<br> ${msg}
+	<br> ${email}
 </body>
 </html>

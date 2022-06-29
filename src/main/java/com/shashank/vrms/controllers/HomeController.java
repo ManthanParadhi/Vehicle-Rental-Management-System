@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 public class HomeController extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("in home controoler");
 		RequestDispatcher rd = getServletContext().getRequestDispatcher("/WEB-INF/home.jsp");
 		rd.forward(request, response);
 	}

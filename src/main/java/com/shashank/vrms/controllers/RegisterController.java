@@ -15,6 +15,7 @@ import com.shashank.vrms.daos.UserDAO;
 import com.shashank.vrms.enums.Role;
 import com.shashank.vrms.models.User;
 import com.shashank.vrms.utilities.BCrypt;
+import com.shashank.vrms.utilities.Helper;
 
 @WebServlet("/register")
 public class RegisterController extends HttpServlet {
@@ -38,6 +39,20 @@ public class RegisterController extends HttpServlet {
 		if(fname==null || lname==null || email==null || password==null) {
 			RequestDispatcher rd = getServletContext().getRequestDispatcher("/WEB-INF/register.jsp");
 			request.setAttribute("msg", "please try again");
+			rd.forward(request, response);
+			return;
+		}
+		
+		if(!Helper.validateEmail(email) || (!Helper.validatePassword(password))) {
+			RequestDispatcher rd = getServletContext().getRequestDispatcher("/WEB-INF/register.jsp");
+			request.setAttribute("msg", "please enter valid email and password...\n "
+					+ "Password must contain->\n"
+					+ " a digit must occur at least once\r\n"
+					+ " a lower case letter must occur at least once\r\n"
+					+ "an upper case letter must occur at least once\r\n"
+					+ " a special character must occur at least once\r\n"
+					+ " no whitespace allowed in the entire string\r\n"
+					+ "      anything, at least eight places though");
 			rd.forward(request, response);
 			return;
 		}

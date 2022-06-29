@@ -10,7 +10,15 @@
 <title>Insert title here</title>
 </head>
 <body>
-	
+
+	<h2>Login page!</h2>
+	<form action="login" method="post">
+
+		Enter email id : <input type="email" name="email" required><br><br>
+		<br> Enter password : <input type="password" name="password" required><br><br>
+		<input type="submit">
+
+	</form>
 		${msg}
 	
 </body>

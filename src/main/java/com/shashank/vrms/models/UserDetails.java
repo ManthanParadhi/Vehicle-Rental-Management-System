@@ -84,6 +84,15 @@ public class UserDetails {
 				+ ", idProofNumber=" + idProofNumber + ", createdOn=" + createdOn + ", updatedOn=" + updatedOn + "]";
 	}
 	
+	public UserDetails(int id, String contactNumber, String addressLine, String city, String state) {
+		super();
+		this.id = id;
+		this.contactNumber = contactNumber;
+		this.addressLine = addressLine;
+		this.city = city;
+		this.state = state;
+	}
+	
 	
 	
 
