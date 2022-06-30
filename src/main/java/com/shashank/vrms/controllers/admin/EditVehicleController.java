@@ -19,29 +19,36 @@ import com.shashank.vrms.enums.VehicleType;
 import com.shashank.vrms.models.Brand;
 import com.shashank.vrms.models.Vehicle;
 import com.shashank.vrms.models.VehicleDocuments;
-import com.shashank.vrms.utilities.Helper;
 
-@WebServlet("/admin/vehicle/add")
-public class AddVehiclecontroller extends HttpServlet {
-
+@WebServlet("/admin/vehicle/edit/*")
+public class EditVehicleController extends HttpServlet {
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		try{
-			
-			BrandDAO brandDAO = new BrandDAO();
+		String path = request.getPathInfo();
+		int id = Integer.parseInt(path.substring(1));
 		
+		try {
+		VehicleDAO vehicleDAO = new VehicleDAO();
+		Vehicle vehicle = vehicleDAO.getVehicleById(id);
+		BrandDAO brandDAO = new BrandDAO();
 		List<Brand>brandList = brandDAO.getAllBrands();
-		RequestDispatcher rd = getServletContext().getRequestDispatcher("/WEB-INF/admin/addVehicle.jsp");
+		
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/admin/editVehicle.jsp");
+		request.setAttribute("vehicle", vehicle);
 		request.setAttribute("brandList",brandList);
 		rd.forward(request, response);
-	} catch (Exception e) {
-		RequestDispatcher rd = getServletContext().getRequestDispatcher("/WEB-INF/admin/adminDashboard.jsp");
-		request.setAttribute("msg","something went wrong, please try again");
-		rd.forward(request, response);}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			HttpSession session = request.getSession();
+			session.setAttribute("msg","Something went wrong, Please try again");
+			response.sendRedirect(request.getContextPath() +"/admin/vehicles");
+		}
 	}
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		int id = Integer.parseInt(request.getParameter("id"));
 		String model = request.getParameter("model");
 		String variant = request.getParameter("variant");
 		String color = request.getParameter("color");
@@ -54,18 +61,11 @@ public class AddVehiclecontroller extends HttpServlet {
 		String imageUrl = request.getParameter("imageUrl");
 		boolean isAvailable = Boolean.parseBoolean(request.getParameter("isAvailable"));
 		
-		System.out.println(request.getParameter("registrationExpiryDate"));
+		System.out.println(registrationNumber);
 		Timestamp registrationExpirydate = Timestamp.valueOf(request.getParameter("registrationExpiryDate").replace("T"," ")+":00");
 		Timestamp pucExpirydate = Timestamp.valueOf(request.getParameter("pucExpiryDate").replace("T"," ")+":00");
 		Timestamp insuranceExpirydate = Timestamp.valueOf(request.getParameter("insuranceExpirydate").replace("T"," ")+":00");
 		VehicleType type = VehicleType.valueOf(request.getParameter("type")) ;
-		
-		if(!Helper.areFieldsValid(model,variant,color,registrationNumber,registrationYear,engineNumber,chasisNumber,imageUrl)) {
-			RequestDispatcher rd = getServletContext().getRequestDispatcher("/WEB-INF/admin/addVehicle.jsp");
-			request.setAttribute("msg", "Please fill required fields properly...");
-			rd.forward(request, response);
-			return;
-		}
 		
 		Vehicle vehicle = new Vehicle();
 		VehicleDocuments documents = new VehicleDocuments();
@@ -73,9 +73,9 @@ public class AddVehiclecontroller extends HttpServlet {
 		documents.setRegExpiresOn(registrationExpirydate);
 		documents.setPucExpiresOn(pucExpirydate);
 		documents.setInsuranceExpiresOn(insuranceExpirydate);
-		documents.setCreatedOn(new Timestamp(System.currentTimeMillis()));
-		
-		
+		documents.setUpdatedOn(new Timestamp(System.currentTimeMillis()));
+		System.out.println(documents.getUpdatedOn());
+		vehicle.setId(id);
 		vehicle.setModel(model);
 		vehicle.setVariant(variant);
 		vehicle.setColor(color);
@@ -87,31 +87,32 @@ public class AddVehiclecontroller extends HttpServlet {
 		vehicle.setSeatingCapacity(seatingCapacity);
 		vehicle.setAvailable(isAvailable);
 		vehicle.setImageUrl(imageUrl);
-		vehicle.setCreatedOn(new Timestamp(System.currentTimeMillis()));
+		vehicle.setUpdatedOn(new Timestamp(System.currentTimeMillis()));
+		
+		System.out.println(vehicle.getUpdatedOn());
+		
 		vehicle.setType(type);
 		vehicle.setDocuments(documents);
 		try {
 		VehicleDAO vehicleDAO = new VehicleDAO();
-		vehicleDAO.addVehicle(vehicle);
-		vehicleDAO.addVehicleDocuments(vehicle);
+		vehicleDAO.updateVehicle(vehicle);
+		vehicleDAO.updateVehicleDocuments(vehicle);
 		
 		HttpSession session = request.getSession(false);
-		session.setAttribute("msg", "Vehicle added successfully...");
+		session.setAttribute("msg", "Vehicle updated successfully...");
 		response.sendRedirect(request.getContextPath() + "/admin/vehicles");
 		}
 		catch (SQLIntegrityConstraintViolationException e) {
 			HttpSession session = request.getSession(false);
 			session.setAttribute("msg", "Vehicle already exist...");
-			response.sendRedirect(request.getContextPath() + "/admin/vehicle/add");	}
+			response.sendRedirect(request.getContextPath() + "/admin/vehicles");	}
 		catch (Exception e) {
 			e.printStackTrace();
 			HttpSession session = request.getSession(false);
 			session.setAttribute("msg", "Something went wrong...");
-			response.sendRedirect(request.getContextPath() + "/admin/vehicle/add");
+			response.sendRedirect(request.getContextPath() + "/admin/vehicles");
 		}
 		
-		
-
 	}
 
 }

@@ -19,7 +19,7 @@ public class AddBrandController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		System.out.println("in AddBrand controller");
+		
 		RequestDispatcher rd = getServletContext().getRequestDispatcher("/WEB-INF/admin/addBrand.jsp");
 		rd.forward(request, response);
 	}
