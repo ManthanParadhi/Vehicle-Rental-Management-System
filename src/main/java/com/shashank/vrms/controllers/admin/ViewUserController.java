@@ -10,22 +10,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.shashank.vrms.daos.BrandDAO;
-import com.shashank.vrms.models.Brand;
+import com.shashank.vrms.daos.UserDAO;
+import com.shashank.vrms.models.User;
 
-@WebServlet("/admin/brands")
-public class ViewBrandController extends HttpServlet {
-
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		System.out.println("brands");
+@WebServlet("/admin/users")
+public class ViewUserController extends HttpServlet {
+	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-			
-		BrandDAO brandDao = new BrandDAO();
-		List<Brand> brandList = brandDao.getAllBrands();
-		
-		RequestDispatcher rd = getServletContext().getRequestDispatcher("/WEB-INF/admin/brands.jsp");
-		request.setAttribute("brandList", brandList);
+		UserDAO userDAO = new UserDAO();
+		List<User> userList  = userDAO.getAllUsers();
+		RequestDispatcher rd = getServletContext().getRequestDispatcher("/WEB-INF/admin/users.jsp");
+		request.setAttribute("userList", userList);
 		rd.forward(request, response);
 		}
 		catch (Exception e) {
@@ -33,9 +29,9 @@ public class ViewBrandController extends HttpServlet {
 			RequestDispatcher rd = getServletContext().getRequestDispatcher("/WEB-INF/admin/adminDashboard.jsp");
 			request.setAttribute("msg", "Something went wrong, please try again...");
 			rd.forward(request, response);
-			
-		}
 		}
 	}
 
+	
 
+}

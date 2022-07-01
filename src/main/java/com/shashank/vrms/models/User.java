@@ -6,6 +6,7 @@ import com.shashank.vrms.enums.Role;
 
 public class User {
 	
+	
 	private int id;
 	private String firstName;
 	private String lastName;
@@ -91,6 +92,14 @@ public class User {
 		this.lastName = lastName;
 		this.email = email;
 		this.role = role;
+	}
+	
+	public User(int id, String firstName, String lastName, String email) {
+		super();
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
 	}
 	
 	

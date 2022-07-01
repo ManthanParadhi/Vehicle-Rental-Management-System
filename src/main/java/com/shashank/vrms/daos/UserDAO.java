@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.shashank.vrms.enums.*;
 import com.shashank.vrms.models.User;
@@ -101,5 +103,27 @@ public class UserDAO {
 		userDetails.setUpdatedOn(rs.getTimestamp(11));
 		
 		return userDetails;
+	}
+	
+	public List<User> getAllUsers() throws SQLException{
+		
+		final String query = "select * from users WHERE role=?";
+		PreparedStatement pst = con.prepareStatement(query);
+		pst.setString(1, Role.CUSTOMER.toString());
+		ResultSet rs = pst.executeQuery();
+		
+		List<User> userList = new ArrayList<>();
+		
+		while(rs.next()) {
+			
+			User user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4));
+			user.setCreatedOn(rs.getTimestamp(7));
+			user.setUpdatedOn(rs.getTimestamp(8));
+			user.setDetails(getUserDetailsByUserId(rs.getInt(1)));
+			System.out.println(user);
+			userList.add(user);
+		}
+		return userList;
+		
 	}
 }

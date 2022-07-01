@@ -15,11 +15,15 @@
 	<ul>
   <li><a href="vehicle/add">Add vehicle</a></li>
   <li><a href="brand/add">Add brand</a></li>
-  <li><a href="#contact">Contact</a></li>
-  <li><a href="#about">About</a></li>
+  <li><a href="users">View users</a></li>
+  <li><a href="businessInformation/add">Add Business Information</a></li>
+   <li><a href="businessInformation">View Business Information</a></li>
+    <li><a href="brands">View brands</a></li>
+     <li><a href="vehicles">View vehicles</a></li>
 </ul>
-	
-		${email}
-	
+	<c:if test="${not empty msg}">
+		${msg}
+		<c:remove var="msg" scope="session" />
+	</c:if>
 </body>
 </html>
