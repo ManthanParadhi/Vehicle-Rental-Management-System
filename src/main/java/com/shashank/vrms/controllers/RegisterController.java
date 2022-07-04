@@ -22,7 +22,7 @@ public class RegisterController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 		RequestDispatcher rd = getServletContext().getRequestDispatcher("/WEB-INF/register.jsp");
 		rd.forward(request, response);
 
@@ -30,33 +30,26 @@ public class RegisterController extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 		String fname = request.getParameter("firstName");
 		String lname = request.getParameter("lastName");
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
-		
-		if(!Helper.areFieldsValid(fname,lname,email,password)) {
+
+		if (!Helper.areFieldsValid(fname, lname, email, password)) {
 			RequestDispatcher rd = getServletContext().getRequestDispatcher("/WEB-INF/register.jsp");
 			request.setAttribute("msg", "please try again");
 			rd.forward(request, response);
 			return;
 		}
-		
-		if(!Helper.validateEmail(email) || (!Helper.validatePassword(password))) {
+
+		if (!Helper.validateEmail(email) || (!Helper.validatePassword(password))) {
 			RequestDispatcher rd = getServletContext().getRequestDispatcher("/WEB-INF/register.jsp");
-			request.setAttribute("msg", "please enter valid email and password...\n "
-					+ "Password must contain->\n"
-					+ " a digit must occur at least once\r\n"
-					+ " a lower case letter must occur at least once\r\n"
-					+ "an upper case letter must occur at least once\r\n"
-					+ " a special character must occur at least once\r\n"
-					+ " no whitespace allowed in the entire string\r\n"
-					+ "      anything, at least eight places though");
+			request.setAttribute("msg", "please enter valid email and password... ");
 			rd.forward(request, response);
 			return;
 		}
-		
+
 		String hashPassword = BCrypt.hashpw(password, BCrypt.gensalt(12));
 		User user = new User(fname, lname, email, hashPassword);
 		user.setRole(Role.CUSTOMER);
@@ -65,43 +58,41 @@ public class RegisterController extends HttpServlet {
 		boolean isEmailTaken = true;
 		UserDAO userDao = null;
 		try {
-		 userDao = new UserDAO();
+			userDao = new UserDAO();
 
-		isEmailTaken = userDao.isEmailAlreadyTaken(user);
-		}
-		catch (Exception e) {
+			isEmailTaken = userDao.isEmailAlreadyTaken(user);
+		} catch (Exception e) {
 			e.printStackTrace();
 			RequestDispatcher rd = getServletContext().getRequestDispatcher("/WEB-INF/register.jsp");
 			request.setAttribute("msg", "Something  went wrong, please try again");
 			rd.forward(request, response);
 			return;
-		
+
 		}
-		if(isEmailTaken) {
+		if (isEmailTaken) {
 			RequestDispatcher rd = getServletContext().getRequestDispatcher("/WEB-INF/register.jsp");
 			request.setAttribute("msg", "This email is already taken, please choose differnt one...");
 			rd.forward(request, response);
 			return;
 		}
-		
+
 		else {
-			
-			boolean isUserCreated = userDao.registerUser(user);
-			if (isUserCreated) {
-				
+			try {
+				userDao.registerUser(user);
+
 				RequestDispatcher rd = getServletContext().getRequestDispatcher("/WEB-INF/login.jsp");
 				request.setAttribute("msg", "User registered successfully");
 				rd.forward(request, response);
 			}
 
-			else {
-				
+			catch (Exception e) {
+
 				RequestDispatcher rd = getServletContext().getRequestDispatcher("/WEB-INF/register.jsp");
 				request.setAttribute("msg", "Something  went wrong, please try again");
 				rd.forward(request, response);
+
 			}
 		}
-		
 
 	}
 }

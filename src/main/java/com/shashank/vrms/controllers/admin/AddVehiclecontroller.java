@@ -67,6 +67,7 @@ public class AddVehiclecontroller extends HttpServlet {
 			return;
 		}
 		
+		BrandDAO brandDAO = new BrandDAO();
 		Vehicle vehicle = new Vehicle();
 		VehicleDocuments documents = new VehicleDocuments();
 		
@@ -74,6 +75,7 @@ public class AddVehiclecontroller extends HttpServlet {
 		documents.setPucExpiresOn(pucExpirydate);
 		documents.setInsuranceExpiresOn(insuranceExpirydate);
 		documents.setCreatedOn(new Timestamp(System.currentTimeMillis()));
+		documents.setVehicle(vehicle);
 		
 		
 		vehicle.setModel(model);
@@ -83,7 +85,7 @@ public class AddVehiclecontroller extends HttpServlet {
 		vehicle.setRegistrationYear(registrationYear);
 		vehicle.setEngineNumber(engineNumber);
 		vehicle.setChasisNumber(chasisNumber);
-		vehicle.setBrandId(brandId);
+		vehicle.setBrand(brandDAO.getBrandById(brandId));
 		vehicle.setSeatingCapacity(seatingCapacity);
 		vehicle.setAvailable(isAvailable);
 		vehicle.setImageUrl(imageUrl);
@@ -93,16 +95,13 @@ public class AddVehiclecontroller extends HttpServlet {
 		try {
 		VehicleDAO vehicleDAO = new VehicleDAO();
 		vehicleDAO.addVehicle(vehicle);
-		vehicleDAO.addVehicleDocuments(vehicle);
+		
 		
 		HttpSession session = request.getSession(false);
 		session.setAttribute("msg", "Vehicle added successfully...");
 		response.sendRedirect(request.getContextPath() + "/admin/vehicles");
 		}
-		catch (SQLIntegrityConstraintViolationException e) {
-			HttpSession session = request.getSession(false);
-			session.setAttribute("msg", "Vehicle already exist...");
-			response.sendRedirect(request.getContextPath() + "/admin/vehicle/add");	}
+		
 		catch (Exception e) {
 			e.printStackTrace();
 			HttpSession session = request.getSession(false);

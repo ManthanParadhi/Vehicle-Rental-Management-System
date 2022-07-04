@@ -57,7 +57,7 @@ public class LoginController extends HttpServlet {
 
 			if (userDao.checkCredentials(email, password)) {
 
-				User user = userDao.getUserByEmailid(email);
+				User user = userDao.getUserByEmailId(email);
 
 				HttpSession session = request.getSession();
 				session.setAttribute("email", email);

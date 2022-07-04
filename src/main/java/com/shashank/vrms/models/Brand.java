@@ -2,11 +2,29 @@ package com.shashank.vrms.models;
 
 import java.sql.Timestamp;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+
+@Entity
 public class Brand {
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
+	
+	@Column(name = "brand_name", nullable = false, unique = true)
 	private String brandName;
+	@Column(name = "created_on", nullable = false)
 	private Timestamp createdOn;
+	@Column(name = "updated_on")
 	private Timestamp updatedOn;
+	
+	
+	
 	public int getId() {
 		return id;
 	}
@@ -37,18 +55,7 @@ public class Brand {
 	public String toString() {
 		return "Brand [id=" + id + ", brand=" + brandName + "]";
 	}
-	public Brand(int id, String brand) {
-		super();
-		this.id = id;
-		this.brandName = brand;
-	}
-	public Brand(int id, String brand, Timestamp createdOn, Timestamp updatedOn) {
-		super();
-		this.id = id;
-		this.brandName = brand;
-		this.createdOn = createdOn;
-		this.updatedOn = updatedOn;
-	}
+	
 	
 	
 	

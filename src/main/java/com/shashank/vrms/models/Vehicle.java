@@ -2,24 +2,66 @@ package com.shashank.vrms.models;
 
 import java.sql.Timestamp;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+
+import org.hibernate.type.TrueFalseType;
+
 import com.shashank.vrms.enums.VehicleType;
 
+@Entity
 public class Vehicle {
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
+	
+	@Column(nullable = false)
 	private String model;
+	@Column(nullable = false)
 	private String variant;
+	@Column(nullable = false)
 	private String color;
+	@Column(name = "registration_number", nullable = false, unique = true)
 	private String registrationNumber;
+	@Column(name = "registration_year", nullable = false)
 	private String registrationYear;
+	@Column(name = "engine_number",nullable = false)
 	private String engineNumber;
+	@Column(name = "chasis_number",nullable = false)
 	private String chasisNumber;
-	private int brandId;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "brand_id", nullable = false)
+	private Brand brand;
+	
+	
+	@Column(name = "seating_capasity",nullable = false)
 	private int seatingCapacity;
+	@Column(name ="is_available",nullable = false)
 	private boolean isAvailable;
+	@Column(name ="image_url",nullable = false)
 	private String imageUrl;
+	
+	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
 	private VehicleType type;
+	
+	@Column(name ="created_on",nullable = false)
 	private Timestamp createdOn;
+	@Column(name ="updated_on")
 	private Timestamp updatedOn;
+	
+	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "vehicle")
 	private VehicleDocuments documents;
 	
 	
@@ -71,11 +113,11 @@ public class Vehicle {
 	public void setChasisNumber(String chasisNumber) {
 		this.chasisNumber = chasisNumber;
 	}
-	public int getBrandId() {
-		return brandId;
+	public Brand getBrand() {
+		return brand;
 	}
-	public void setBrandId(int brandId) {
-		this.brandId = brandId;
+	public void setBrand(Brand brand) {
+		this.brand = brand;
 	}
 	public int getSeatingCapacity() {
 		return seatingCapacity;

@@ -1,129 +1,86 @@
 package com.shashank.vrms.daos;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
+
+import org.hibernate.Criteria;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 
 import com.shashank.vrms.enums.*;
 import com.shashank.vrms.models.User;
 import com.shashank.vrms.models.UserDetails;
+import com.shashank.vrms.models.Vehicle;
 import com.shashank.vrms.utilities.BCrypt;
-import com.shashank.vrms.utilities.HikariCPDataSource;
+import com.shashank.vrms.utilities.Helper;
+import com.shashank.vrms.utilities.HibernateUtil;
 
 public class UserDAO {
 
-	Connection con = null;
-	
-	public UserDAO() throws SQLException, ClassNotFoundException {
-		 //this.con = HikariCPDataSource.getConnection();
-		String url = "jdbc:mysql://localhost:3306/vehicle_rental_management_system";
-		String username = "root";
-		String password = "000000";
-		Class.forName("com.mysql.jdbc.Driver");
-		con = DriverManager.getConnection(url, username, password);
+	public void registerUser(User user) {
+
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		session.save(user);
+		session.getTransaction().commit();
+		session.close();
+
 	}
 
-	public boolean registerUser(User user) {
+	public boolean isEmailAlreadyTaken(User user) {
 
-		try {
-			String query = "insert into users(first_name,last_name,email,password,role,created_on,updated_on) values(?,?,?,?,?,?,?)";
-			PreparedStatement pst = con.prepareStatement(query);
-			pst.setString(1, user.getFirstName());
-			pst.setString(2, user.getLastName());
-			pst.setString(3, user.getEmail());
-			pst.setString(4, user.getPassword());
-			pst.setString(5, user.getRole().toString());
-			pst.setTimestamp(6, user.getCreatedOn());
-			pst.setTimestamp(7, user.getUpdatedOn());
-			pst.executeUpdate();
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		
+		Criteria criteria = session.createCriteria(User.class);
+		User userFromDb = (User) criteria.add(Restrictions.eq("email", user.getEmail()))
+		                             .uniqueResult();
+		session.getTransaction().commit();
+		session.close();
+		
+		if(userFromDb != null)
 			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
+		return false;
 	}
-	
-	public boolean isEmailAlreadyTaken(User user) throws SQLException {
-		final String query =  "select count(*) from users WHERE email=?";
-		PreparedStatement pst = con.prepareStatement(query);
-		pst.setString(1,user.getEmail());
-		ResultSet rs = pst.executeQuery();
-		rs.next();
-		int count = rs.getInt(1);
-		boolean isEmailPresent = false;
-		if(count == 1) {
-			isEmailPresent = true;
-			return isEmailPresent;
-		}
-		return isEmailPresent;	
-	}
-	
-	public boolean checkCredentials(String email, String password) throws SQLException {
 
-		String query = "select * from users WHERE email=?";
-		PreparedStatement pst = con.prepareStatement(query);
-		pst.setString(1, email);
-		ResultSet rs = pst.executeQuery();
-		rs.next();
-	    boolean matched = BCrypt.checkpw(password, rs.getString(5));
-	    return matched;
+	public boolean checkCredentials(String email, String password)  {
+
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		Criteria criteria = session.createCriteria(User.class);
+		User userFromDb = (User) criteria.add(Restrictions.eq("email", email))
+		                             .uniqueResult();
+		session.getTransaction().commit();
+		session.close();
+		boolean matched = BCrypt.checkpw(password, userFromDb.getPassword());
+		return matched;
 	}
 	
+	public User getUserByEmailId(String email) {
 		
-	public User getUserByEmailid(String emailId) throws SQLException {
-		final String query =  "select * from users WHERE email=?";
-		PreparedStatement pst = con.prepareStatement(query);
-		pst.setString(1, emailId);
-		ResultSet rs = pst.executeQuery();
-		rs.next();
-		User user = new User(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),Role.valueOf(rs.getString(6)));
-		user.setCreatedOn(rs.getTimestamp(7));
-		user.setUpdatedOn(rs.getTimestamp(8));
-		user.setDetails(getUserDetailsByUserId(user.getId()));
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		Criteria criteria = session.createCriteria(User.class);
+		User userFromDb = (User) criteria.add(Restrictions.eq("email", email))
+		                             .uniqueResult();
+		session.getTransaction().commit();
+		session.close();
 		
-		return user;
+		return userFromDb;
 	}
-	
-	public UserDetails getUserDetailsByUserId(int userId) throws SQLException {
-		final String query =  "select * from user_details WHERE user_id=?";
-		PreparedStatement pst = con.prepareStatement(query);
-		pst.setInt(1, userId);
-		ResultSet rs = pst.executeQuery();
-		if(rs.next()==false)
-			return null;
-		UserDetails userDetails = new UserDetails(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5));
-		userDetails.setPincode(rs.getInt(6));
-		userDetails.setIdProofType(rs.getString(7));
-		userDetails.setIdProofNumber(rs.getString(8));
-		userDetails.setCreatedOn(rs.getTimestamp(10));
-		userDetails.setUpdatedOn(rs.getTimestamp(11));
+
 		
-		return userDetails;
-	}
-	
-	public List<User> getAllUsers() throws SQLException{
-		
-		final String query = "select * from users WHERE role=?";
-		PreparedStatement pst = con.prepareStatement(query);
-		pst.setString(1, Role.CUSTOMER.toString());
-		ResultSet rs = pst.executeQuery();
-		
-		List<User> userList = new ArrayList<>();
-		
-		while(rs.next()) {
-			
-			User user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4));
-			user.setCreatedOn(rs.getTimestamp(7));
-			user.setUpdatedOn(rs.getTimestamp(8));
-			user.setDetails(getUserDetailsByUserId(rs.getInt(1)));
-			System.out.println(user);
-			userList.add(user);
-		}
+
+	public List<User> getAllUsers() {
+
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		Criteria criteria = session.createCriteria(User.class);
+		List<User> userList = criteria.add(Restrictions.eq("role", Role.CUSTOMER)).list();
+                
+		session.getTransaction().commit();
+		session.close();		
 		return userList;
-		
+
 	}
 }

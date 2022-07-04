@@ -28,6 +28,7 @@ public class ViewVehicleController extends HttpServlet {
 
 		} catch (Exception e) {
 			
+			e.printStackTrace();
 			RequestDispatcher rd = getServletContext().getRequestDispatcher("/WEB-INF/admin/vehicles.jsp");
 			request.setAttribute("msg", "Something went wrong, please try again...");
 			rd.forward(request, response);

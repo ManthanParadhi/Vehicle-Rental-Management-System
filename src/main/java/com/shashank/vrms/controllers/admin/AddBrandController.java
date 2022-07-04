@@ -43,11 +43,8 @@ public class AddBrandController extends HttpServlet {
 				response.sendRedirect(request.getContextPath() + "/admin/brands");
 			
 		}
-		catch (SQLIntegrityConstraintViolationException e) {
-			RequestDispatcher rd = getServletContext().getRequestDispatcher("/WEB-INF/admin/addBrand.jsp");
-			request.setAttribute("msg", "Brand already exists...");
-			rd.forward(request, response);		}
 		catch (Exception e) {
+			e.printStackTrace();
 			RequestDispatcher rd = getServletContext().getRequestDispatcher("/WEB-INF/admin/addBrand.jsp");
 			request.setAttribute("msg", "Something went wrong, Please try again...");
 			rd.forward(request, response);

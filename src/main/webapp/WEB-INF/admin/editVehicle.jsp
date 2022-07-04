@@ -38,10 +38,10 @@
 	Enter chasis number : <input type="text" name="chasisNumber" value="${vehicle.getChasisNumber()}" required> <br><br>
 	Enter Brand  :
 	
-	<select required name="brandId" value="${vehicle.getBrandId()}" >
+	<select required name="brandId" value="${vehicle.getBrand().getId()}" >
 			<option value="" disabled selected hidden>Select Brand</option>
 			<c:forEach items="${brandList}" var="brand">
-				<option value="${brand.getId()}" ${vehicle.getBrandId() == brand.getId() ? 'selected' : ''}>${brand.getBrand()}
+				<option value="${brand.getId()}" ${vehicle.getBrand().getId() == brand.getId() ? 'selected' : ''}>${brand.getBrand()}
 				</option>
 			</c:forEach>
 		</select><br><br>
@@ -52,7 +52,7 @@
 
 <select name="seatingCapacity" value="${vehicle.getSeatingCapacity()}" >
   <option value="" disabled selected hidden>Select Seating capacity</option>
-  
+  <option value="1" ${vehicle.getSeatingCapacity() == 1 ? 'selected' : ''}>1 Seater</option>
   <option value="2" ${vehicle.getSeatingCapacity() == 2 ? 'selected' : ''}>2 Seater</option>
   <option value="4" ${vehicle.getSeatingCapacity() == 4 ? 'selected' : ''}>4 Seater</option>
   <option value="5" ${vehicle.getSeatingCapacity() == 5 ? 'selected' : ''}>5 Seater</option>

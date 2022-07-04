@@ -3,13 +3,36 @@ package com.shashank.vrms.models;
 import java.sql.Date;
 import java.sql.Timestamp;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+@Entity
+@Table(name = "vehicle_documents")
 public class VehicleDocuments {
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
+	@Column(name = "reg_expires_on", nullable = false)
 	private Timestamp regExpiresOn;
+	@Column(name = "puc_expires_on", nullable = false)
 	private Timestamp pucExpiresOn;
+	@Column(name = "insurance_expires_on", nullable = false)
 	private Timestamp insuranceExpiresOn;
-	private int vehicleId;
+	
+	@OneToOne
+	@JoinColumn(name = "vehicle_id", nullable = false)
+	private Vehicle vehicle;
+	
+	@Column(name ="created_on",nullable = false)
 	private Timestamp createdOn;
+	@Column(name ="updated_on")
 	private Timestamp updatedOn;
 	
 	
@@ -37,12 +60,15 @@ public class VehicleDocuments {
 	public void setInsuranceExpiresOn(Timestamp insuranceExpiresOn) {
 		this.insuranceExpiresOn = insuranceExpiresOn;
 	}
-	public int getVehicleId() {
-		return vehicleId;
+	
+	
+	public Vehicle getVehicle() {
+		return vehicle;
 	}
-	public void setVehicleId(int vehicleId) {
-		this.vehicleId = vehicleId;
+	public void setVehicle(Vehicle vehicle) {
+		this.vehicle = vehicle;
 	}
+	
 	public Timestamp getCreatedOn() {
 		return createdOn;
 	}

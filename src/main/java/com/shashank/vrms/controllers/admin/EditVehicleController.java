@@ -67,7 +67,9 @@ public class EditVehicleController extends HttpServlet {
 		Timestamp insuranceExpirydate = Timestamp.valueOf(request.getParameter("insuranceExpirydate").replace("T"," ")+":00");
 		VehicleType type = VehicleType.valueOf(request.getParameter("type")) ;
 		
-		Vehicle vehicle = new Vehicle();
+		BrandDAO brandDAO = new BrandDAO();
+		VehicleDAO vehicleDAO = new VehicleDAO();
+		Vehicle vehicle = vehicleDAO.getVehicleById(id);
 		VehicleDocuments documents = new VehicleDocuments();
 		
 		documents.setRegExpiresOn(registrationExpirydate);
@@ -83,29 +85,29 @@ public class EditVehicleController extends HttpServlet {
 		vehicle.setRegistrationYear(registrationYear);
 		vehicle.setEngineNumber(engineNumber);
 		vehicle.setChasisNumber(chasisNumber);
-		vehicle.setBrandId(brandId);
+		vehicle.setBrand(brandDAO.getBrandById(brandId));
 		vehicle.setSeatingCapacity(seatingCapacity);
 		vehicle.setAvailable(isAvailable);
 		vehicle.setImageUrl(imageUrl);
+		vehicle.setType(type);
 		vehicle.setUpdatedOn(new Timestamp(System.currentTimeMillis()));
 		
-		System.out.println(vehicle.getUpdatedOn());
+		vehicle.getDocuments().setRegExpiresOn(registrationExpirydate);
+		vehicle.getDocuments().setPucExpiresOn(pucExpirydate);
+		vehicle.getDocuments().setInsuranceExpiresOn(insuranceExpirydate);
+		vehicle.getDocuments().setUpdatedOn(new Timestamp(System.currentTimeMillis()));
 		
-		vehicle.setType(type);
-		vehicle.setDocuments(documents);
+				
+		
 		try {
-		VehicleDAO vehicleDAO = new VehicleDAO();
-		vehicleDAO.updateVehicle(vehicle);
-		vehicleDAO.updateVehicleDocuments(vehicle);
 		
+		vehicleDAO.updateVehicle(vehicle);
+	
 		HttpSession session = request.getSession(false);
 		session.setAttribute("msg", "Vehicle updated successfully...");
 		response.sendRedirect(request.getContextPath() + "/admin/vehicles");
 		}
-		catch (SQLIntegrityConstraintViolationException e) {
-			HttpSession session = request.getSession(false);
-			session.setAttribute("msg", "Vehicle already exist...");
-			response.sendRedirect(request.getContextPath() + "/admin/vehicles");	}
+	
 		catch (Exception e) {
 			e.printStackTrace();
 			HttpSession session = request.getSession(false);

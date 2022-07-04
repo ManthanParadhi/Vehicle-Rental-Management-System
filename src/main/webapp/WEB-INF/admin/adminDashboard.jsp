@@ -20,6 +20,8 @@
    <li><a href="businessInformation">View Business Information</a></li>
     <li><a href="brands">View brands</a></li>
      <li><a href="vehicles">View vehicles</a></li>
+      <li><a href="driver/add">Add driver</a></li>
+      <li><a href="drivers">View drivers</a></li>
 </ul>
 	<c:if test="${not empty msg}">
 		${msg}

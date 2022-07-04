@@ -49,7 +49,7 @@
 					<td>${vehicle.getRegistrationYear()}</td>
 					<td>${vehicle.getEngineNumber()}</td>
 					<td>${vehicle.getChasisNumber()}</td>
-			        <td>${vehicle.getBrandId()}</td>
+			        <td>${vehicle.getBrand().getBrand()}</td>
 			        <td>${vehicle.getSeatingCapacity()}</td>
 					<td>${vehicle.isAvailable()}</td>
 					<td>${vehicle.getCreatedOn()}</td>

@@ -2,17 +2,53 @@ package com.shashank.vrms.models;
 
 import java.sql.Timestamp;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "user_details")
 public class UserDetails {
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
+	
+	@Column(name = "contact_number", nullable = false)
 	private String contactNumber;
+	
+	@Column(name = "address_line", nullable = false)
 	private String addressLine;
+	
+	@Column(nullable = false)
 	private String city;
+	
+	@Column(nullable = false)
 	private String state;
+	
+	@Column(nullable = false)
 	private int pincode;
+	
+	@Column(name="id_proof_type", nullable = false)
 	private String idProofType;
+	
+	@Column(name="id_proof_number", nullable = false, unique = true)
 	private String idProofNumber;
+	
+	@Column(name="created_on", nullable = false)
 	private Timestamp createdOn;
+	
+	@Column(name="updated_on")
 	private Timestamp updatedOn;
+	
+	@OneToOne
+	@JoinColumn(name = "user_id", nullable = false)
+	private User user;
 	
 	
 	public int getId() {
@@ -77,21 +113,17 @@ public class UserDetails {
 	}
 	
 	
-	@Override
-	public String toString() {
-		return "UserDetails [id=" + id + ", contactNumber=" + contactNumber + ", addressLine=" + addressLine + ", city="
-				+ city + ", state=" + state + ", pincode=" + pincode + ", idProofType=" + idProofType
-				+ ", idProofNumber=" + idProofNumber + ", createdOn=" + createdOn + ", updatedOn=" + updatedOn + "]";
+	
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
 	}
 	
-	public UserDetails(int id, String contactNumber, String addressLine, String city, String state) {
-		super();
-		this.id = id;
-		this.contactNumber = contactNumber;
-		this.addressLine = addressLine;
-		this.city = city;
-		this.state = state;
-	}
+	
+	
+	
 	
 	
 	

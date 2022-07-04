@@ -38,7 +38,7 @@ public class EditBrandController extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		int brandId = Integer.parseInt(request.getParameter("id"));
+		int id = Integer.parseInt(request.getParameter("id"));
 		String brandName = request.getParameter("brandName");
 
 		if (!Helper.areFieldsValid(brandName)) {
@@ -48,21 +48,22 @@ public class EditBrandController extends HttpServlet {
 			return;
 		}
 
-		Brand brand = new Brand(brandId, brandName);
+		BrandDAO brandDAO = new BrandDAO();
+		Brand brand = brandDAO.getBrandById(id);
+		brand.setBrand(brandName);
 		brand.setUpdatedOn(new Timestamp(System.currentTimeMillis()));
 
-		
-		
 		HttpSession session = request.getSession(false);
 
 		try {
-			BrandDAO brandDAO = new BrandDAO();
+			
 			brandDAO.updateBrand(brand);
 			session.setAttribute("msg", "Brand updated successfully...");
 			response.sendRedirect(request.getContextPath() + "/admin/brands");
 		}
 
 		catch (	Exception e) {
+			e.printStackTrace();
 			session.setAttribute("msg", "Somthing went wrong, please try again...");
 			response.sendRedirect(request.getContextPath() + "/admin/brands");
 		}

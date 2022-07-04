@@ -2,20 +2,52 @@ package com.shashank.vrms.models;
 
 import java.sql.Timestamp;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+
 import com.shashank.vrms.enums.Role;
 
+@Entity
 public class User {
 	
-	
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
+	
+	@Column(name = "first_name", nullable = false)
 	private String firstName;
+	
+	@Column(name = "last_name", nullable = false)
 	private String lastName;
+	
+	@Column(unique = true, nullable = false)
 	private String email;
+	
+	@Column( nullable = false)
 	private String password;
+	
+	@Column( nullable = false)
+	@Enumerated(EnumType.STRING)
 	private Role role;
+	
+	@Column(name = "created_on", nullable = false)
 	private Timestamp createdOn;
+	
+	@Column(name = "updated_on")
 	private Timestamp updatedOn;
+	
+	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "user")
 	private UserDetails details;
+	
+	
 	public int getId() {
 		return id;
 	}
@@ -100,6 +132,10 @@ public class User {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
+	}
+	
+	public User() {
+		
 	}
 	
 	
