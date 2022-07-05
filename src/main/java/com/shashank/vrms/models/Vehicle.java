@@ -1,6 +1,8 @@
 package com.shashank.vrms.models;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -13,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import org.hibernate.type.TrueFalseType;
@@ -31,13 +34,17 @@ public class Vehicle {
 	private String variant;
 	@Column(nullable = false)
 	private String color;
-	@Column(name = "registration_number", nullable = false, unique = true)
+	
+	@Column(name = "registration_number", nullable = false, unique = true, length=50)
 	private String registrationNumber;
+	
 	@Column(name = "registration_year", nullable = false)
 	private String registrationYear;
-	@Column(name = "engine_number",nullable = false)
+	
+	@Column(name = "engine_number",nullable = false, length=50)
 	private String engineNumber;
-	@Column(name = "chasis_number",nullable = false)
+	
+	@Column(name = "chasis_number",nullable = false, length=50)
 	private String chasisNumber;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -49,7 +56,7 @@ public class Vehicle {
 	private int seatingCapacity;
 	@Column(name ="is_available",nullable = false)
 	private boolean isAvailable;
-	@Column(name ="image_url",nullable = false)
+	@Column(name ="image_url",nullable = false,columnDefinition="varchar(1000)")
 	private String imageUrl;
 	
 	@Column(nullable = false)
@@ -64,7 +71,18 @@ public class Vehicle {
 	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "vehicle")
 	private VehicleDocuments documents;
 	
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "vehicle")
+	private List<Booking> booking = new ArrayList<Booking>();
 	
+	
+	
+	
+	public List<Booking> getBooking() {
+		return booking;
+	}
+	public void setBooking(List<Booking> booking) {
+		this.booking = booking;
+	}
 	public int getId() {
 		return id;
 	}

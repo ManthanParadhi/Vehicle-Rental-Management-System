@@ -8,7 +8,7 @@
         <property name="hibernate.connection.password">000000</property>
         <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/vrms</property>
         <property name="hibernate.connection.username">root</property>
-        <property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</property>
         <property name="hbm2ddl.auto">update</property>
          <property name="show_sql">true</property>
          <mapping class="com.shashank.vrms.models.Vehicle"/>
@@ -18,5 +18,7 @@
            <mapping class="com.shashank.vrms.models.User"/>
            <mapping class="com.shashank.vrms.models.UserDetails"/>
             <mapping class="com.shashank.vrms.models.Driver"/>
+             <mapping class="com.shashank.vrms.models.Booking"/>
+            
     </session-factory>
 </hibernate-configuration>

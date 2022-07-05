@@ -1,6 +1,8 @@
 package com.shashank.vrms.models;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,6 +13,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.shashank.vrms.enums.Role;
@@ -28,7 +31,7 @@ public class User {
 	@Column(name = "last_name", nullable = false)
 	private String lastName;
 	
-	@Column(unique = true, nullable = false)
+	@Column(unique = true, nullable = false, length=50)
 	private String email;
 	
 	@Column( nullable = false)
@@ -47,6 +50,18 @@ public class User {
 	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "user")
 	private UserDetails details;
 	
+	@OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+	private List<Booking> booking = new ArrayList<Booking>();
+	
+	
+	
+	
+	public List<Booking> getBooking() {
+		return booking;
+	}
+	public void setBooking(List<Booking> booking) {
+		this.booking = booking;
+	}
 	
 	public int getId() {
 		return id;

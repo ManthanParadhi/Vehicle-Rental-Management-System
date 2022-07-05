@@ -26,7 +26,9 @@ public class CustomerLoginFilter extends HttpFilter implements Filter {
 		HttpSession session = request.getSession(false);
 		Role role = session==null?null:(Role)session.getAttribute("role");
 		
-		if(role==Role.CUSTOMER)
+		if(role == null)
+			response.sendRedirect(request.getContextPath() +"/login");
+		else if(role==Role.CUSTOMER)
 			chain.doFilter(request, response);
 		else {
 			response.sendRedirect(request.getContextPath() +"/");

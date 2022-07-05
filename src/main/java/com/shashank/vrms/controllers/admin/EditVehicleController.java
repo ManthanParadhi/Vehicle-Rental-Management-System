@@ -70,13 +70,8 @@ public class EditVehicleController extends HttpServlet {
 		BrandDAO brandDAO = new BrandDAO();
 		VehicleDAO vehicleDAO = new VehicleDAO();
 		Vehicle vehicle = vehicleDAO.getVehicleById(id);
-		VehicleDocuments documents = new VehicleDocuments();
 		
-		documents.setRegExpiresOn(registrationExpirydate);
-		documents.setPucExpiresOn(pucExpirydate);
-		documents.setInsuranceExpiresOn(insuranceExpirydate);
-		documents.setUpdatedOn(new Timestamp(System.currentTimeMillis()));
-		System.out.println(documents.getUpdatedOn());
+		
 		vehicle.setId(id);
 		vehicle.setModel(model);
 		vehicle.setVariant(variant);

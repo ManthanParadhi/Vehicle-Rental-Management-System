@@ -3,6 +3,9 @@
     
     <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 <%@ page isELIgnored="false"%>
+
+<%@ page import="com.shashank.vrms.enums.IdProofType" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,6 +39,27 @@
 			<input class="w-full outline-none border-2 p-2 m-1 focus:border-white" placeholder="Enter Last Name" type="text" name="lastName" required>
 			<input class="w-full outline-none border-2 p-2 m-1 focus:border-white" placeholder="Enter your E-mail id" type="email" name="email" required>
 			<input class="w-full outline-none border-2 p-2 m-1 focus:border-white" placeholder="Enter Password" type="password" name="password" required>
+			
+			<input class="w-full outline-none border-2 p-2 m-1 focus:border-white" placeholder="Enter Address Line" type="text" name="addressLine" required>
+			<input class="w-full outline-none border-2 p-2 m-1 focus:border-white" placeholder="State" type="text" name="state" required>
+			<input class="w-full outline-none border-2 p-2 m-1 focus:border-white" placeholder="City" type="text" name="city" required>
+			<input class="w-full outline-none border-2 p-2 m-1 focus:border-white" placeholder="Pincode" type="text" name="pincode" required>
+			<input class="w-full outline-none border-2 p-2 m-1 focus:border-white" placeholder="Contact Number" type="text" name="contactNumber" required>
+			
+			<c:set var="idProofTypes" value="<%=IdProofType.values()%>"/>
+	
+<select name="idProofType"  required>
+  <option value="" disabled selected hidden>Select ID Proof Type</option>
+  
+  <c:forEach items="${idProofTypes}" var="idProofType">
+     <option value="${idProofType}" >${idProofType}</option>
+  
+</c:forEach>
+  
+  </select><br><br>
+  <input class="w-full outline-none border-2 p-2 m-1 focus:border-white" placeholder="ID Proof Number" type="text" name="idProofNumber" required>
+  
+			
 			
 			<div class="text-xs p-2">
 			${msg}

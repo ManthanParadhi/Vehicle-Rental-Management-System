@@ -16,7 +16,7 @@ public class Brand {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	
-	@Column(name = "brand_name", nullable = false, unique = true)
+	@Column(name = "brand_name", nullable = false, unique = true, length=50)
 	private String brandName;
 	@Column(name = "created_on", nullable = false)
 	private Timestamp createdOn;

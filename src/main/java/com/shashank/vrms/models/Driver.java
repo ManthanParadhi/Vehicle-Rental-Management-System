@@ -1,14 +1,19 @@
 package com.shashank.vrms.models;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import com.shashank.vrms.enums.IdProofType;
 
@@ -35,7 +40,7 @@ public class Driver {
 	@Enumerated(EnumType.STRING)
 	private IdProofType idProofType;
 	
-	@Column(name="id_proof_number", nullable = false, unique = true)
+	@Column(name="id_proof_number", nullable = false, unique = true, length=50)
 	private String idProofNumber;
 	
 	@Column(name = "created_on", nullable = false)
@@ -43,6 +48,20 @@ public class Driver {
 	
 	@Column(name = "updated_on")
 	private Timestamp updatedOn;
+	
+	
+	@OneToMany(mappedBy = "driver",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+	private List<Booking> booking = new ArrayList<Booking>();
+	
+	
+
+	public List<Booking> getBooking() {
+		return booking;
+	}
+
+	public void setBooking(List<Booking> booking) {
+		this.booking = booking;
+	}
 
 	public int getId() {
 		return id;

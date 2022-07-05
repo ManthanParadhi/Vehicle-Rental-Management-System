@@ -52,7 +52,9 @@ public class UserDAO {
 		                             .uniqueResult();
 		session.getTransaction().commit();
 		session.close();
+		System.out.println(userFromDb.getPassword().toString());
 		boolean matched = BCrypt.checkpw(password, userFromDb.getPassword());
+		System.out.println(matched);
 		return matched;
 	}
 	
@@ -81,6 +83,16 @@ public class UserDAO {
 		session.getTransaction().commit();
 		session.close();		
 		return userList;
+
+	}
+	
+	public void updateUser(User user) {
+
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		session.update(user);
+		session.getTransaction().commit();
+		session.close();
 
 	}
 }

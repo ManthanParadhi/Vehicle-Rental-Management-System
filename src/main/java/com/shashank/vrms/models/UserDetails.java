@@ -4,12 +4,16 @@ import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.shashank.vrms.enums.IdProofType;
 
 @Entity
 @Table(name = "user_details")
@@ -35,9 +39,10 @@ public class UserDetails {
 	private int pincode;
 	
 	@Column(name="id_proof_type", nullable = false)
-	private String idProofType;
+	@Enumerated(EnumType.STRING)
+	private IdProofType idProofType;
 	
-	@Column(name="id_proof_number", nullable = false, unique = true)
+	@Column(name="id_proof_number", nullable = false, unique = true, length=50)
 	private String idProofNumber;
 	
 	@Column(name="created_on", nullable = false)
@@ -87,10 +92,10 @@ public class UserDetails {
 	public void setPincode(int pincode) {
 		this.pincode = pincode;
 	}
-	public String getIdProofType() {
+	public IdProofType getIdProofType() {
 		return idProofType;
 	}
-	public void setIdProofType(String idProofType) {
+	public void setIdProofType(IdProofType idProofType) {
 		this.idProofType = idProofType;
 	}
 	public String getIdProofNumber() {

@@ -12,8 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.shashank.vrms.daos.UserDAO;
+import com.shashank.vrms.enums.IdProofType;
 import com.shashank.vrms.enums.Role;
 import com.shashank.vrms.models.User;
+import com.shashank.vrms.models.UserDetails;
 import com.shashank.vrms.utilities.BCrypt;
 import com.shashank.vrms.utilities.Helper;
 
@@ -35,6 +37,14 @@ public class RegisterController extends HttpServlet {
 		String lname = request.getParameter("lastName");
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
+		String addressLine = request.getParameter("addressLine");
+		String state = request.getParameter("state");
+		String city = request.getParameter("city");
+		int pincode = Integer.parseInt(request.getParameter("pincode"));
+		String contactNumber = request.getParameter("contactNumber");
+		IdProofType idProofType = IdProofType.valueOf(request.getParameter("idProofType"));
+		String idProofNumber = request.getParameter("idProofNumber");
+		
 
 		if (!Helper.areFieldsValid(fname, lname, email, password)) {
 			RequestDispatcher rd = getServletContext().getRequestDispatcher("/WEB-INF/register.jsp");
@@ -52,8 +62,19 @@ public class RegisterController extends HttpServlet {
 
 		String hashPassword = BCrypt.hashpw(password, BCrypt.gensalt(12));
 		User user = new User(fname, lname, email, hashPassword);
+		UserDetails details = new UserDetails();
 		user.setRole(Role.CUSTOMER);
 		user.setCreatedOn(new Timestamp(System.currentTimeMillis()));
+		user.setDetails(details);
+		user.getDetails().setAddressLine(addressLine);
+		user.getDetails().setState(state);
+		user.getDetails().setCity(city);
+		user.getDetails().setPincode(pincode);
+		user.getDetails().setContactNumber(contactNumber);
+		user.getDetails().setIdProofType(idProofType);
+		user.getDetails().setIdProofNumber(idProofNumber);
+		user.getDetails().setCreatedOn(new Timestamp(System.currentTimeMillis()));
+		user.getDetails().setUser(user);
 
 		boolean isEmailTaken = true;
 		UserDAO userDao = null;
