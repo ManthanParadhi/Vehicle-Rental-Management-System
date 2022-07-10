@@ -135,6 +135,7 @@ public class Driver {
 	public void setUpdatedOn(Timestamp updatedOn) {
 		this.updatedOn = updatedOn;
 	}
+	
 
 	@Override
 	public String toString() {

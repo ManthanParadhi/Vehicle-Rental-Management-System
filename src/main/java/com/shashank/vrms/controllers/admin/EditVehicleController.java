@@ -59,6 +59,7 @@ public class EditVehicleController extends HttpServlet {
 		int brandId = Integer.parseInt(request.getParameter("brandId"));
 		int seatingCapacity = Integer.parseInt(request.getParameter("seatingCapacity"));
 		String imageUrl = request.getParameter("imageUrl");
+		double pricePerDay = Double.parseDouble(request.getParameter("pricePerDay"));
 		boolean isAvailable = Boolean.parseBoolean(request.getParameter("isAvailable"));
 		
 		System.out.println(registrationNumber);
@@ -85,6 +86,7 @@ public class EditVehicleController extends HttpServlet {
 		vehicle.setAvailable(isAvailable);
 		vehicle.setImageUrl(imageUrl);
 		vehicle.setType(type);
+		vehicle.setPricePerDay(pricePerDay);
 		vehicle.setUpdatedOn(new Timestamp(System.currentTimeMillis()));
 		
 		vehicle.getDocuments().setRegExpiresOn(registrationExpirydate);

@@ -54,8 +54,10 @@ public class Vehicle {
 	
 	@Column(name = "seating_capasity",nullable = false)
 	private int seatingCapacity;
+	
 	@Column(name ="is_available",nullable = false)
 	private boolean isAvailable;
+	
 	@Column(name ="image_url",nullable = false,columnDefinition="varchar(1000)")
 	private String imageUrl;
 	
@@ -65,8 +67,12 @@ public class Vehicle {
 	
 	@Column(name ="created_on",nullable = false)
 	private Timestamp createdOn;
+	
 	@Column(name ="updated_on")
 	private Timestamp updatedOn;
+	
+	@Column(nullable = false)
+	private double pricePerDay;
 	
 	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "vehicle")
 	private VehicleDocuments documents;
@@ -175,12 +181,23 @@ public class Vehicle {
 	}
 	
 	
+	
+	public double getPricePerDay() {
+		return pricePerDay;
+	}
+	public void setPricePerDay(double price) {
+		this.pricePerDay = price;
+	}
+	
+	
 	public VehicleDocuments getDocuments() {
 		return documents;
 	}
 	public void setDocuments(VehicleDocuments documents) {
 		this.documents = documents;
 	}
+	
+	
 	public Vehicle() {
 		super();
 		

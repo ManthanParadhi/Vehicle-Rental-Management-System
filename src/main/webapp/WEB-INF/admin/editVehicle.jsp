@@ -68,7 +68,7 @@
   <option value="false" ${vehicle.isAvailable() == false ? 'selected' : ''}>Not Available</option>
   
   </select><br><br>
-  
+ Enter price per day : <input type="text" name="pricePerDay"  value="${vehicle.getPricePerDay()}" required> <br><br>
 	Enter image url : <input type="text" name="imageUrl"  value="${vehicle.getImageUrl()}" required> <br><br>
 	Enter registration expiry date :  <input type="datetime-local" name="registrationExpiryDate" value="${vehicle.getDocuments().getRegExpiresOn()}"  required><br><br>
 	Enter puc expiry date :  <input type="datetime-local" name="pucExpiryDate" value="${vehicle.getDocuments().getPucExpiresOn()}" required><br><br>

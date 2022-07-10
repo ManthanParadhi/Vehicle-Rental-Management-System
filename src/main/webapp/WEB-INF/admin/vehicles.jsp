@@ -29,6 +29,7 @@
 			    <th>Brand Name</th>
 			    <th>Seating Capacity</th>
 				<th>Availability</th>
+				<th>Price/day</th>
 				<th>Created On</th>
 				<th>Updated On</th>
 				<th>Image Url</th>
@@ -52,6 +53,7 @@
 			        <td>${vehicle.getBrand().getBrand()}</td>
 			        <td>${vehicle.getSeatingCapacity()}</td>
 					<td>${vehicle.isAvailable()}</td>
+					<td>${vehicle.getPricePerDay()}</td>
 					<td>${vehicle.getCreatedOn()}</td>
 					<td>${vehicle.getUpdatedOn()}</td>
 					<td>${vehicle.getImageUrl()}</td>

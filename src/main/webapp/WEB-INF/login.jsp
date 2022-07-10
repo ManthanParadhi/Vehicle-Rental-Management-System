@@ -15,10 +15,15 @@
     <nav class="flex w-4/5 mx-auto justify-between items-center">
         <h1 class="inline p-3 m-0 text-white text-3xl">KVRS</h1>
         <div class="inline p-3 m-0 text-white">
-            <a href="#" class="inline pl-6 py-3 m-0 text-white hover:text-yellow-400">Home</a>
-            <a href="#" class="inline pl-6 py-3 m-0 text-white hover:text-yellow-400">About</a>
-            <a href="#" class="inline pl-6 py-3 m-0 text-white hover:text-yellow-400">Vehicle</a>
-            <a href="#" class="inline pl-6 py-3 m-0 text-white hover:text-yellow-400">Contact</a>
+            <h3 class="inline pl-6 py-3 m-0 text-white"><a href="home">Home</a></h3>
+            <h3 class="inline pl-6 py-3 m-0 text-white"><a href="login">About</a></h3>
+            <h3 class="inline pl-6 py-3 m-0 text-white"><a href="vehicles">Vehicles</a></h3>
+            <h3 class="inline pl-6 py-3 m-0 text-white"><a href="contact">Contact</a></h3>
+            <c:if test="${empty email}">
+				<h3 class="inline pl-6 py-3 m-0 text-white hover:text-yellow-400">
+				<a href="register">Register</a></h3>
+				
+			</c:if>
         </div>
     </nav>
     <div class="w-4/5 text-right text-white p-4 mx-auto pr-0">
@@ -41,7 +46,7 @@
 		<div class="w-3/5 m-auto text-center pt-4">
 			<h4 class="p-1">OR</h4>
 			<button class="w-1/6 border-2 p-1 hover:bg-yellow-400 hover:text-white hover:border-white">Forgot Password</button>
-			<p class="p-1">Don't have a account? <a class="hover:text-yellow-400" href="#">Sign Up</a></p>
+			<p class="p-1">Don't have a account? <a class="hover:text-yellow-400" href="register">Sign Up</a></p>
 		</div>
 </body>
 </html>

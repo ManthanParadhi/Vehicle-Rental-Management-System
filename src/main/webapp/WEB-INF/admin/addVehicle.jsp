@@ -61,6 +61,7 @@
   </select><br><br>
   
 	Enter image url : <input type="text" name="imageUrl" required> <br><br>
+Booking price per day : <input type="text" name="pricePerDay" required> <br><br>
 	Enter registration expiry date :  <input type="datetime-local" name="registrationExpiryDate" required><br><br>
 	Enter puc expiry date :  <input type="datetime-local" name="pucExpiryDate" required><br><br>
 	Enter insurance expiry date :  <input type="datetime-local" name="insuranceExpirydate" required><br><br>

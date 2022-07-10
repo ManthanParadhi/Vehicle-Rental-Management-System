@@ -34,9 +34,9 @@
 				Puc Expires On : ${vehicle.getDocuments().getPucExpiresOn()}<br>
 				Insurance Expires On :${vehicle.getDocuments().getInsuranceExpiresOn()}<br>
 					
-					<form action="c/book" method="post">
-				<input type="hidden" name="id" value="${vehicle.getId()}"><br>
-				<button type="submit">Book Now</button><br><br>
-				</form>
+					<a href="${pageContext.request.contextPath}/c/book/${vehicle.getId()}">
+				
+				<button>Book Now</button><br><br>
+				</a>
 </body>
 </html>

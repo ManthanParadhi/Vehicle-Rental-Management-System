@@ -39,14 +39,14 @@
 					<td>${status.count}</td>
 					<td>${booking.getVehicle().getId()}</td>
 					<td>${booking.getUser().getId()}</td>
-					<td>${booking.getDriver().getId()}</td>
+					<td>${booking.isNeedDriver()}</td>
 					<td>${booking.getBookedOn()}</td>
 					<td>${booking.getFromDate()}</td>
 					<td>${booking.getTillDate()}</td>
 					<td>${booking.getBookingPrice()}</td>
 					<td>${driver.getBookingStatus()}</td>
 
-					<td><a href="booking/cancel/${driver.getId()}"><button>Cancel Booking</button></a></td>
+					<td><a href="booking/approve/${driver.getId()}"><button>Approved Booking</button></a></td>
 					
 				</tr>
 

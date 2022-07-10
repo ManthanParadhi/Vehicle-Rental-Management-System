@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.shashank.vrms.daos.BookingDAO;
 import com.shashank.vrms.daos.UserDAO;
+import com.shashank.vrms.models.Booking;
 import com.shashank.vrms.models.User;
 
 @WebServlet("/c/bookings")
@@ -22,11 +24,12 @@ public class ViewBookingController extends HttpServlet {
 
 		try {
 			
+			BookingDAO bookingDAO = new BookingDAO();
+			List<Booking>bookingList = bookingDAO.getAllBookings();
+			
 			HttpSession session = request.getSession(false);
-			
-			
 			RequestDispatcher rd = getServletContext().getRequestDispatcher("/WEB-INF/customer/bookings.jsp");
-			//request.setAttribute("userList", userList);
+			request.setAttribute("bookingList", bookingList);
 			rd.forward(request, response);
 			}
 			catch (Exception e) {

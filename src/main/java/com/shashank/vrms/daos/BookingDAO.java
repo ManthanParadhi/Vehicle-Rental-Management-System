@@ -11,15 +11,25 @@ import com.shashank.vrms.utilities.HibernateUtil;
 
 public class BookingDAO {
 
-	
-public List<Booking> getAllDrivers(){
-		
+	public List<Booking> getAllBookings() {
+
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		List<Booking> bookingList = Helper.loadAllData(Booking.class, session);
 		session.getTransaction().commit();
 		session.close();
-		
+
 		return bookingList;
+	}
+
+	
+	public void addBooking(Booking booking) {
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		session.save(booking);
+		session.getTransaction().commit();
+		session.close();
+		
 	}
 }

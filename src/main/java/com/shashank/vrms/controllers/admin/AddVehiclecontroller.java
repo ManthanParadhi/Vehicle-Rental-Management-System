@@ -52,6 +52,7 @@ public class AddVehiclecontroller extends HttpServlet {
 		int brandId = Integer.parseInt(request.getParameter("brandId"));
 		int seatingCapacity = Integer.parseInt(request.getParameter("seatingCapacity"));
 		String imageUrl = request.getParameter("imageUrl");
+		double pricePerDay = Double.parseDouble(request.getParameter("pricePerDay"));
 		boolean isAvailable = Boolean.parseBoolean(request.getParameter("isAvailable"));
 		
 		System.out.println(request.getParameter("registrationExpiryDate"));
@@ -91,6 +92,7 @@ public class AddVehiclecontroller extends HttpServlet {
 		vehicle.setImageUrl(imageUrl);
 		vehicle.setCreatedOn(new Timestamp(System.currentTimeMillis()));
 		vehicle.setType(type);
+		vehicle.setPricePerDay(pricePerDay);
 		vehicle.setDocuments(documents);
 		try {
 		VehicleDAO vehicleDAO = new VehicleDAO();

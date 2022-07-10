@@ -52,6 +52,9 @@ public class Booking {
 	@Column(name ="booking_status",nullable = false)
 	@Enumerated(EnumType.STRING)
 	private BookingStatus bookingStatus;
+	
+	@Column(name ="need_driver",nullable = false)
+	private boolean needDriver;
 
 	public int getId() {
 		return id;
@@ -131,6 +134,23 @@ public class Booking {
 
 	public void setBookingStatus(BookingStatus bookingStatus) {
 		this.bookingStatus = bookingStatus;
+	}
+	
+	
+
+	public boolean isNeedDriver() {
+		return needDriver;
+	}
+
+	public void setNeedDriver(boolean needDriver) {
+		this.needDriver = needDriver;
+	}
+
+	@Override
+	public String toString() {
+		return "Booking [id=" + id + ", vehicle=" + vehicle + ", bookedOn=" + bookedOn + ", fromDate=" + fromDate
+				+ ", tillDate=" + tillDate + ", bookingPrice=" + bookingPrice + ", updateddOn=" + updateddOn
+				+ ", bookingStatus=" + bookingStatus + "]";
 	}
 
 		
