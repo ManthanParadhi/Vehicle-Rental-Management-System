@@ -4,6 +4,7 @@
     <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 <%@ page isELIgnored="false"%>
 <%@ page import="com.shashank.vrms.enums.IdProofType" %>
+<%@ page import="com.shashank.vrms.enums.AvailabilityStatus" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,6 +36,19 @@
   </select><br><br>
   
   ID proof Number : <input type="text" name = "idProofNumber" required> <br><br>	
+  
+  <label >Availability Status :</label>
+  <c:set var="availabilityStatuss" value="<%=AvailabilityStatus.values()%>"/>
+	
+<select name="availabilityStatus"  required>
+  <option value="" disabled selected hidden>Select type</option>
+  
+  <c:forEach items="${availabilityStatuss}" var="availabilityStatus">
+     <option value="${availabilityStatus}" >${availabilityStatus}</option>
+  
+</c:forEach>
+  
+  </select><br><br>
   
   <input type="submit"> 
 	

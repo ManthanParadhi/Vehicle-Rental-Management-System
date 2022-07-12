@@ -32,4 +32,27 @@ public class BookingDAO {
 		session.close();
 		
 	}
+	
+	public Booking getBookingById(int id) {
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		Booking booking = session.get(Booking.class, id);
+		session.getTransaction().commit();
+		session.close();
+		
+		return booking;
+		
+	}
+	
+	
+	public void updateBooking(Booking booking) {
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		session.update(booking);
+		session.getTransaction().commit();
+		session.close();
+		
+	}
 }

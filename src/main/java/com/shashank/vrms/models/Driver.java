@@ -15,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.shashank.vrms.enums.AvailabilityStatus;
 import com.shashank.vrms.enums.IdProofType;
 
 @Entity
@@ -48,6 +49,10 @@ public class Driver {
 	
 	@Column(name = "updated_on")
 	private Timestamp updatedOn;
+	
+	@Column(name="availability_status", nullable = false)
+	@Enumerated(EnumType.STRING)
+	private AvailabilityStatus availabilityStatus;
 	
 	
 	@OneToMany(mappedBy = "driver",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
@@ -136,6 +141,16 @@ public class Driver {
 		this.updatedOn = updatedOn;
 	}
 	
+	
+	
+
+	public AvailabilityStatus getAvailabilityStatus() {
+		return availabilityStatus;
+	}
+
+	public void setAvailabilityStatus(AvailabilityStatus availabilityStatus) {
+		this.availabilityStatus = availabilityStatus;
+	}
 
 	@Override
 	public String toString() {

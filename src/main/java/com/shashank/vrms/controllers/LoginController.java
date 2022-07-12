@@ -63,6 +63,7 @@ public class LoginController extends HttpServlet {
 				session.setAttribute("email", email);
 				session.setAttribute("userId", user.getId());
 				session.setAttribute("role", user.getRole());
+				session.setAttribute("name", user.getFirstName());
 
 				if (user.getRole() == Role.CUSTOMER) {
 					response.sendRedirect(request.getContextPath()+"/");

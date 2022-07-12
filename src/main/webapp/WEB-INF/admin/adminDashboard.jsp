@@ -22,6 +22,7 @@
      <li><a href="vehicles">View vehicles</a></li>
       <li><a href="driver/add">Add driver</a></li>
       <li><a href="drivers">View drivers</a></li>
+       <li><a href="bookings">View Bookings</a></li>
 </ul>
 	<c:if test="${not empty msg}">
 		${msg}

@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
     
     <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
+    <%@ page import="com.shashank.vrms.enums.BookingStatus" %>
 <%@ page isELIgnored="false"%>
 <!DOCTYPE html>
 <html>
@@ -24,7 +25,7 @@
 				<th>Sr No</th>
 				<th>Vehicle ID</th>
 				<th>User ID</th>
-				<th>Driver ID</th>
+				<th>Need Driver</th>
 				<th>Booked On</th>
 				<th>From Date</th>
 				<th>Till Date</th>
@@ -44,7 +45,24 @@
 					<td>${booking.getFromDate()}</td>
 					<td>${booking.getTillDate()}</td>
 					<td>${booking.getBookingPrice()}</td>
-					<td>${driver.getBookingStatus()}</td>
+					<td>${booking.getBookingStatus()}</td>
+					
+					<c:if test="${booking.getBookingStatus() eq BookingStatus.PENDING }">
+						
+						<td>
+							<form action="booking/approve" method="post">
+								<input type="hidden" name="id" value="${booking.getId()}">
+   								<button type="submit" >Approve Booking</button>
+   							</form>
+						</td>
+						<td><form action="booking/decline" method="post">
+								<input type="hidden" name="id" value="${booking.getId()}">
+   								<button type="submit" >Decline Booking</button>
+   							</form></td>
+					
+					</c:if>
+					
+					<td><a href="booking/view/${booking.getId()}"><button>View Booking</button></a></td>
 					
 				</tr>
 

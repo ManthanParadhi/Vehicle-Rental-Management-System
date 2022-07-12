@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
-    <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
+            <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 <%@ page isELIgnored="false"%>
 <!DOCTYPE html>
 <html>
@@ -10,11 +10,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-<c:if test="${not empty msg}">
-		${msg}
-		<c:remove var="msg" scope="session" />
-	</c:if>
-	<table cellspacing="20">
+
+${msg}
+<table cellspacing="20">
 
 		<tbody>
 
@@ -46,8 +44,11 @@
 					<td>${driver.getCreatedOn()}</td>
 					<td>${driver.getUpdatedOn()}</td>
 
-					<td><a href="driver/delete/${driver.getId()}"><button>Delete</button></a></td>
-					<td><a href="driver/edit/${driver.getId()}"><button>Edit</button></a></td>
+					<td><form action="" method="post">
+						<input type="hidden" name="id" value="${driver.getId()}">
+   						<button type="submit" >Allot</button>
+					</form></td>
+					
 				</tr>
 
 			</c:forEach>

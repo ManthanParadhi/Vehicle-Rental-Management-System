@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.shashank.vrms.daos.DriverDAO;
+import com.shashank.vrms.enums.AvailabilityStatus;
 import com.shashank.vrms.enums.IdProofType;
 import com.shashank.vrms.models.Driver;
 import com.shashank.vrms.utilities.Helper;
@@ -41,7 +42,7 @@ public class AddDriverController extends HttpServlet {
 		
 		IdProofType idProofType = IdProofType.valueOf(request.getParameter("idProofType"));
 		String idProofNumber = request.getParameter("idProofNumber");
-		
+		AvailabilityStatus availabilityStatus = AvailabilityStatus.valueOf(request.getParameter("availabilityStatus"));
 		System.out.println(firstName + lastName + contactNumber +idProofNumber);
 		
 		if(!Helper.areFieldsValid(firstName,lastName,contactNumber,idProofNumber)) {
@@ -59,6 +60,7 @@ public class AddDriverController extends HttpServlet {
 		driver.setAddressLine(address);
 		driver.setIdProofType(idProofType);
 		driver.setIdProofNumber(idProofNumber);
+		driver.setAvailabilityStatus(availabilityStatus);
 		driver.setCreatedOn(new Timestamp(System.currentTimeMillis()));
 		
 		try{

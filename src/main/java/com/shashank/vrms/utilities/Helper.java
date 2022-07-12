@@ -71,36 +71,52 @@ public class Helper {
 		cal.setTimeInMillis(timestamp.getTime());
 		return cal.get(Calendar.DAY_OF_MONTH);
 	}
-	
-	
-	public static boolean checkIfDatesValid(Timestamp fromDate, Timestamp tillDate, int vehicleId) {
+
+	public static boolean checkIfBookingDatesValid(Timestamp fromDate, Timestamp tillDate, Vehicle vehicle) {
+
+		List<Booking> bookings = vehicle.getBooking();
 		
-		VehicleDAO vehicleDAO = new VehicleDAO();
-		Vehicle vehicle = vehicleDAO.getVehicleById(vehicleId);
+		  Calendar c = Calendar.getInstance();
+		  
+		  c.set(Calendar.HOUR_OF_DAY, 9);
+		  c.set(Calendar.MINUTE, 0);
+		  Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		  timestamp.setTime(c.getTimeInMillis());
+
+		if (fromDate.before(timestamp)
+				|| tillDate.before(timestamp)) {
+			
+			System.out.println("1.Selected date is not available");
+
+			return false;
+		}
 		
-		List<Booking> bookings =vehicle.getBooking();
 		
+		if(fromDate.after(tillDate)) {
+			System.out.println("2.Selected date is not available");
+			return false;
+		}
+		
+
 		for (Booking booking : bookings) {
-			
-			
-			if(     
-					(   fromDate.after(booking.getFromDate()) && fromDate.before(booking.getTillDate())   )
-									
-															||
-									
-					(   tillDate.after(booking.getFromDate()) && tillDate.before(booking.getTillDate())   )		
-					
-					
-				) {
-				
-					System.out.println("Selected date is not available");
-					return false;
-				
+
+			if (!((fromDate.before(booking.getFromDate()) && tillDate.before(booking.getFromDate()))
+
+					||
+
+					(tillDate.after(booking.getTillDate()) && fromDate.after(booking.getTillDate()))
+
+			)) {
+
+				System.out.println("3.Selected date is not available");
+				return false;
+
 			}
-			
+
 		}
 		
 		return true;
-		
+
 	}
+
 }

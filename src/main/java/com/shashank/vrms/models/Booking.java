@@ -46,8 +46,8 @@ public class Booking {
 	@Column(name ="booking_price",nullable = false)
 	private double bookingPrice;
 	
-	@Column(name ="updated_on",nullable = false)
-	private Timestamp updateddOn;
+	@Column(name ="updated_on")
+	private Timestamp updatedOn;
 	
 	@Column(name ="booking_status",nullable = false)
 	@Enumerated(EnumType.STRING)
@@ -120,12 +120,12 @@ public class Booking {
 		this.bookingPrice = bookingPrice;
 	}
 
-	public Timestamp getUpdateddOn() {
-		return updateddOn;
+	public Timestamp getUpdatedOn() {
+		return updatedOn;
 	}
 
-	public void setUpdateddOn(Timestamp updateddOn) {
-		this.updateddOn = updateddOn;
+	public void setUpdatedOn(Timestamp updateddOn) {
+		this.updatedOn = updateddOn;
 	}
 
 	public BookingStatus getBookingStatus() {
@@ -149,7 +149,7 @@ public class Booking {
 	@Override
 	public String toString() {
 		return "Booking [id=" + id + ", vehicle=" + vehicle + ", bookedOn=" + bookedOn + ", fromDate=" + fromDate
-				+ ", tillDate=" + tillDate + ", bookingPrice=" + bookingPrice + ", updateddOn=" + updateddOn
+				+ ", tillDate=" + tillDate + ", bookingPrice=" + bookingPrice + ", updateddOn=" + updatedOn
 				+ ", bookingStatus=" + bookingStatus + "]";
 	}
 
