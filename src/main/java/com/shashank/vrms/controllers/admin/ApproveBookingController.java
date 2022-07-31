@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import com.shashank.vrms.daos.BookingDAO;
 import com.shashank.vrms.enums.BookingStatus;
 import com.shashank.vrms.models.Booking;
+import com.shashank.vrms.utilities.Helper;
 
 @WebServlet("/admin/booking/approve")
 public class ApproveBookingController extends HttpServlet {
@@ -21,10 +22,11 @@ public class ApproveBookingController extends HttpServlet {
 		
 		BookingDAO bookingDAO = new BookingDAO();
 		Booking booking = bookingDAO.getBookingById(id);
+		HttpSession session = request.getSession(false);
 		
 		if(booking.isNeedDriver()) {
 			
-			HttpSession session = request.getSession(false);
+			
 			session.setAttribute("bookingId",id);
 			response.sendRedirect(request.getContextPath()+ "/admin/allotDriver");
 		}
@@ -33,8 +35,12 @@ public class ApproveBookingController extends HttpServlet {
 			
 			booking.setBookingStatus(BookingStatus.APPROVED);
 			bookingDAO.updateBooking(booking);
+			String receiversEmail = "shashankkhadilkar311@gmail.com";
+			String subject = "VRMS Booking Confirmation";
+			String body = "Dear Customer, Your booking approved successfully... enjoy your ride";
+			//Helper.sendEmailNotification(receiversEmail, subject, body);
 			
-			HttpSession session = request.getSession(false);
+			
 			session.setAttribute("msg","Booking approved successfully...");
 			response.sendRedirect(request.getContextPath()+ "/admin/bookings");
 		}

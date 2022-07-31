@@ -3,7 +3,7 @@ package com.shashank.vrms.enums;
 
 
 public enum AvailabilityStatus {
-	Available("Available"), NOT_AVAILABLE("Not Available");
+	AVAILABLE("Available"), NOT_AVAILABLE("Not Available");
 	
 	
 	String value;

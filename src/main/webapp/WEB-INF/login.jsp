@@ -49,9 +49,9 @@
 	<div class="w-3/5 mt-2 mx-auto text-center pt-4">
 
 		<h4 class="p-1">OR</h4>
-		<button
-			class="w-1/6 border-2 p-1 hover:bg-yellow-400 hover:text-white hover:border-white">Forgot
-			Password</button>
+		<a href="forgotPassword"> <button
+			class="w-1/6 border-2 p-1 hover:bg-yellow-400 hover:text-white hover:border-white" >Forgot
+			Password</button> </a>
 		<p class="p-2">
 			Don't have a account? <a class="hover:text-yellow-400"
 				href="register">Sign Up</a>

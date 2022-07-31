@@ -19,6 +19,7 @@ import com.shashank.vrms.enums.AvailabilityStatus;
 import com.shashank.vrms.enums.BookingStatus;
 import com.shashank.vrms.models.Booking;
 import com.shashank.vrms.models.Driver;
+import com.shashank.vrms.utilities.Helper;
 
 @WebServlet("/admin/allotDriver/*")
 public class AllotDriverController extends HttpServlet {
@@ -26,19 +27,17 @@ public class AllotDriverController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
+		HttpSession session = request.getSession(false);
+		int bookingId = (int)session.getAttribute("bookingId");
+		BookingDAO bookingDAO = new BookingDAO();
+		Booking booking = bookingDAO.getBookingById(bookingId);
+		Timestamp fromDate = booking.getFromDate();
+		Timestamp tillDate = booking.getTillDate();
 		
+		System.out.println(fromDate + "  "+tillDate);
 		DriverDAO driverDAO = new DriverDAO();
 		List<Driver> driverList = driverDAO.getAllDrivers();
-		List<Driver> availableDriverList = new ArrayList<Driver>();
-		
-		for (Driver driver : driverList) {
-			
-			if(driver.getAvailabilityStatus()==AvailabilityStatus.Available) {
-				
-				availableDriverList.add(driver);
-			}
-			
-		}
+		List<Driver> availableDriverList = Helper.getAvailableDrivers(driverList, fromDate, tillDate);
 		
 		
 		RequestDispatcher rd = getServletContext().getRequestDispatcher("/WEB-INF/admin/availableDrivers.jsp");
